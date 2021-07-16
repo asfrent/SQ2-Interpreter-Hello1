@@ -1,0 +1,34 @@
+newline:
+    [ print "\n" ];
+end;
+
+start:
+    local
+        number x;
+        number y;
+        number z;
+    end;
+    x = 10;                                         # 10  ?  ?
+    y = x + 3;                                      # 10 13  ?
+    z = (y - 14 - x + 20);                          # 10 13  9
+
+    [ write x ];
+    [ newline ];
+    [ write y ];
+    [ newline ];
+    [ write z ];
+    [ newline ];
+	[ write (x + y - z) ];                          # 14
+    [ newline ];
+	[ write (x + (x + x) - (z + x) - (y - x)) ];    # 8
+    [ newline ];
+    [ write (10 + 12) ];                            # 22
+    [ newline ];
+    [ write (10 - 12) ];                            # -2
+    [ newline ];
+    [ write (10 - 1 - 2) ];                         # 7
+    [ newline ];
+    [ write (10 - (1 - 2)) ];                       # 11
+    [ newline ];
+end;
+

@@ -1,0 +1,29 @@
+##################################
+# Surface Computation
+#
+# User defined functions, besides 'start', can have parameters, and return values.
+# An function call can reference functions that are defined later in the file.
+# 'number' arguments to a function are passed by value - changes to an argument does not affect its value in the caller function.
+# 'return' is a control structure that marks the end of the execution of a function
+#
+# "return" is a keyword
+
+start:
+	local
+		number r;
+	end;
+	[print "Radius? "];
+	r = [ read ];
+	[print "Circle Surface = "];
+	[write [ surf r ]];
+	[print "\n"];
+end;
+
+pi100 -> number:
+	return 314;
+end;
+
+surf number r -> number:
+	return ([pi100] * r * r) / 100;
+end;
+

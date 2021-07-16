@@ -1,0 +1,27 @@
+f number x:
+    if x < 0;
+        [print "negative\n"];
+    else
+        if x > 0;
+            [print "positive\n"];
+        else
+            [print "zero\n"];
+        end;
+    end;
+end;
+start:
+    local
+        number x;
+    end;
+    x = 10;
+    if x + 3 < 2 * (x + 3);
+        [print "a\n"];
+    else
+        [print "b\n"];
+    end;
+
+    [f 10];
+    [f -10];
+    [f 0];
+end;
+

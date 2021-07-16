@@ -1,0 +1,21 @@
+newline:
+    [ print "\n" ];
+end;
+
+start:
+    local
+        number x;
+        number y;
+        number z;
+    end;
+    x = 10;
+    y = x + 3;
+    z = y - 14;
+	[ write x ];
+    [ newline ];
+	[ write y ];
+    [ newline ];
+	[ write z ];
+    [ newline ];
+end;
+

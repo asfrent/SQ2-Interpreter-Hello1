@@ -1,0 +1,6 @@
+start:
+    local
+        number a;
+    end;
+    a = b;
+end;

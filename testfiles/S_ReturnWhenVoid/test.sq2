@@ -1,0 +1,6 @@
+f:
+    return 10;
+end;
+start:
+    [f];
+end;

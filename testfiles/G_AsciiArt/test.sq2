@@ -1,0 +1,12 @@
+##################################
+# ASCII Art
+#   _
+# "/ \"
+# "\_/"
+#
+# String constants can contain escape characters: \"  \\ and \n . Anything else is the character itself.
+# Here's a program that prints some ASCII art.
+
+start:
+	[print "  _\n\"/ \\\"\n\"\\_/\"\n"];
+end;

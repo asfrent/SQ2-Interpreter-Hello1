@@ -1,0 +1,7 @@
+build/
+dist/
+src/ro/pub/cpl/sq2/hello1/Sq2.tokens
+src/ro/pub/cpl/sq2/hello1/Sq2Lexer.java
+src/ro/pub/cpl/sq2/hello1/Sq2Parser.java
+bin/
+remdata/

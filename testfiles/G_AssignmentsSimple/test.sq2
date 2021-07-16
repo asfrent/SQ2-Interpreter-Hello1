@@ -1,0 +1,8 @@
+start:
+    local
+        number x;
+    end;
+    x = 10;
+	[write x];
+end;
+

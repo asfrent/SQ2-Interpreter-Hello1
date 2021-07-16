@@ -1,0 +1,7 @@
+start:
+    local
+        number x;
+    end;
+    x = 1 + [print "\n"];
+end;
+

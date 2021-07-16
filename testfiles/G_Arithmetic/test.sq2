@@ -1,0 +1,13 @@
+newline:
+    [ print "\n" ];
+end;
+
+start:
+    [ write (1 * 2 * 3) ];                                                          #  6
+    [ newline ];
+    [ write (1 * 2 * 3 / 5 * 4) ];                                                  #  4
+    [ newline ];
+    [ write (1 + 2 * 3 / 4 + 6 * 8 - 9 / 3 - 2 * 5 + 3 * (2 + 4 * 2 / 3)) ];        # 49
+    [ newline ];
+end;
+

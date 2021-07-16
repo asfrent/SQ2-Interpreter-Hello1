@@ -1,0 +1,16 @@
+##################################
+# Hello World
+
+# The simplest program contains
+# - the start function
+# - a string constant
+# - a call to the predefined function "print", which has one argument of string type.
+#   This is the only place where string constants are used.
+#
+# Whitespace, including end of line, is not significant. 
+# Statements and functions are completed with ;
+# "end" is a keyword. "start" and "print" are predefined functions
+
+start:
+    [print "Hello world!\n"];
+end;

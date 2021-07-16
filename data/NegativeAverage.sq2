@@ -1,0 +1,33 @@
+##################################
+# Negative Average
+#
+# Another type in the language is 'number' - which means a 32 bit signed integer.
+# Positive and negative constants of this type are possible (e.g. -20 , 0 , 403 )
+# A function can have local variables of type 'number', which are defined in the 'local' section
+#
+# The local variables can be assigned values using assignment statments: variable = expression
+# The expressions are numerical, they can contain binary arithmetic operators ( + - * / ), unary - , and parentheses.
+# The expressions can contain function calls.
+#
+# Functions can have paramters and return values.
+# "read" is a predefined function that reads a line from standard input, converts it into a number, then returns that number.
+# "write" is a predefined function with a number parameter. It prints its parameters on the standard output.
+#
+# "local" and "number" are keywords
+# "read" and "write" are predefined functions.
+#
+
+start:
+	local
+		number r1;
+		number r2;
+		number r3;
+	end;
+	[print ">"]; r1 = [ read ];
+	[print ">"]; r2 = [ read ];
+	[print ">"]; r3 = [ read ];
+	[print "Negative Average = "];
+	[write -(r1 + r2 + r3) / 3];
+	[print "\n"];
+end;
+

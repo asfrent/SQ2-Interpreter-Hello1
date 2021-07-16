@@ -1,0 +1,35 @@
+newline:
+    [print "\n"];
+end;
+
+swap number[10] v, number p1, number p2:
+    local
+        number aux;
+    end;
+    aux = v[p1];
+    v[p1] = v[p2];
+    v[p2] = aux;
+end;
+
+getpos number[10] v, number p -> number:
+    return v[p];
+end;
+
+start:
+    local
+        number x;
+        number[10] v;
+    end;
+    v[1] = 5;
+    v[7] = 6;
+    x = 1;
+    [write v[1]];
+    [newline];
+    [write v[7]];
+    [newline];
+    [swap v, x, 7];
+    [write [getpos v, 1]];
+    [newline];
+    [write [getpos v, 7]];
+    [newline];
+end;

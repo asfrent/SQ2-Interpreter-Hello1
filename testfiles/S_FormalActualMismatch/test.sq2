@@ -1,0 +1,7 @@
+f number a, number[10] b:
+    [print "\n"];
+end;
+
+start:
+    [f 10, 10];
+end;

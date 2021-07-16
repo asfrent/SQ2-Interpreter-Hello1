@@ -1,0 +1,4 @@
+start:
+	[write 10];
+end;
+

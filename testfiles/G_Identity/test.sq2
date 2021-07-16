@@ -1,0 +1,9 @@
+# This tests standard library functions:
+#   * read
+#   * write
+#   * print
+
+start:
+    [write [read]];
+    [print "\n"];
+end;

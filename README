@@ -1,0 +1,132 @@
+Andrei-Traian Sfrent, 342C3
+Tema de recuperare, Compilatoare
+
+CUPRINS
+1. Analiza lexicala
+2. Analiza semantica
+3. Interpretare
+4. Generare de cod
+5. Testare
+
+1. Analiza lexicala
+Pentru etapa de analiza lexicala am scris mai intai o gramatica in ANTLR care
+sa accepte exemplele din enunt. Am folosit predicate sintactice pentru
+operatiile matematice pentru a avea tipul de asociativitate pe care mi-l doream,
+dar sunt curios daca exista vreo alta varianta de a produce un arbore corect.
+Am creat clase corespunzatoare fiecarui nod din arbore si am adaugat cod Java in
+gramatica astfel incat la parsare sa se creeze un arbore folosind clasele
+mele.
+Clasa de baza este TreeNode, si contine 3 metode importante:
+* run - folosita pentru interpretare
+* check - folosita pentru analiza semantica
+* generate - folosita pentru generarea de cod
+
+2. Analiza semantica
+Metoda check este apelata pentru fiecare functie din in parte din clasa Program
+si are ca parametri programul (pentru a putea verifica nume de functii si
+parametri) si un Scope pentru variabilele locale. Este folosita clasa
+TypeException pentru a raporta erorile de nepotrivire de tip.
+
+3. Interpretare
+Interpretarea este executata in metoda run in fiecare nod din arbore. Metoda
+indeplineste un dublu rol. Pe de o parte, run executa instructiunile si
+evalueaza expresiile din fii sai, iar pe de alta parte intoarce rezultatul
+expresiilor numerice (am profitat de faptul ca number este singurul tip care
+poate fi intors in program).
+Pentru a trata apelurile recursive de functii folosesc clasa LookupTable care
+contine o stiva de Scope. La fiecare apel creez un Scope nou, adaug variabile
+locale atat pentru paramtetri (care sunt legati la valorile transmise), cat si
+pentru variabilele locale din functii (in care marchez faptul ca sunt
+neinitializate). Un efect advers al acestui lucru este faptul ca inclusiv
+valorile parametrilor pot fi schimbate (in cazul celor number), dar schimbarile
+nu se vor regasi si in functia apelanta.
+Tabela de lookup este intializata cu un Scope gol in clasa Program si apoi este
+propagata in tot arborele prin metoda run.
+Variablilele locare sunt implementate in clasa Variable. Designul nu este foarte
+bun intrucat o variabila incapsuleaza, de fapt, 3 tipuri posibile: referinta la
+array, array indexat sau tip number simplu.
+
+4. Generare de cod
+Generarea de cod este facuta in metoda generate din clasa TreeNode,
+implementata de toate nodurile arborelui in parte. Am incercat sa urmaresc codul
+din fisierele .lir date ca exemplu, dar nu am reusit. Nu am inteles de ce in
+exemple pentru variabilele de tip array era pastrata si adresa lor (i32**),
+m-am cam complicat incercand sa generez cod cat mai similar, pana cand m-am
+hotarat sa citesc bine de tot manualul de LLVM si sa scriu cod de la zero, fara
+sa ma mai uit pe absolut niciun exemplu.
+Functia generate primeste ca parametru un CompilationContext pe care l-am
+folosit pentru a genera simboluri, in ordine, pentru variabilele locale din
+codul LLVM.
+In cazul structurilor de limbaj care aveau nevoie de branching am folosit nume
+de etichete, astfel incat sa nu trebuiasca sa numar simbolurile pentru fiecare
+basic block. De asemenea, cum instructiunea ret anunta sfarsitul unui basic
+block, anunt clasa CompilationContext sa consume un simbol in nodul Return.
+Am modificat functiile __sq2__read si __sq2__write astfel incat apelurile catre
+ele sa nu mai constituie cazuri particulare (le-am redenumit in read si write).
+
+5. Testare
+Am scris si testat tema in Linux 64bit, Mint:
+
+andrei@andrei-xps SQ2-Interpreter-Hello1 $ uname -a
+Linux andrei-xps 3.5.0-23-generic
+#35-Ubuntu SMP Thu Jan 24 13:15:40 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
+
+andrei@andrei-xps SQ2-Interpreter-Hello1 $ lli --version
+LLVM (http://llvm.org/):
+  LLVM version 3.1
+   (Ubuntu 3.1-2ubuntu1)Optimized build.
+  Built Aug 28 2012 (15:43:42).
+  Default target: x86_64-pc-linux-gnu
+  Host CPU: corei7-avx
+
+Am avut scrisa o infrastructura de testare pe care am folosit-o semestrul trecut
+la un concurs, am adaptat-o si mi-am scris teste pentru tema. Am facut test
+driven development, intai alegeam un test care sa cuprinda elementele de limbaj
+pe care doream sa le implementez, apoi implementam si corectam greselile pana
+cand toate testele treceau. In felul acesta am fost sigur pe orice modificare
+am facut si nu am facut debugging aproape deloc.
+Testele se gasesc in directorul testfiles/ si pot fi executate prin targetul ant
+test. Ele sunt impartite in 3 categorii, cele pentru interpretare (care au
+prefixul I_), cele pentru generare de cod (cu prefixul G_) si cele pentru etapa
+de analiza semantica. Intre teste am inclus toate exemplele din enunt.
+
+Un raport al executiei testelor:
+
+test:
+     [exec] testfiles/G_AddSubComplex.............................[PASS] (took 0.174s)
+     [exec] testfiles/G_AddSubSimple..............................[PASS] (took 0.197s)
+     [exec] testfiles/G_Arithmetic................................[PASS] (took 0.194s)
+     [exec] testfiles/G_ArrayMath.................................[PASS] (took 0.200s)
+     [exec] testfiles/G_AsciiArt..................................[PASS] (took 0.168s)
+     [exec] testfiles/G_AssignmentsSimple.........................[PASS] (took 0.165s)
+     [exec] testfiles/G_Conditional...............................[PASS] (took 0.185s)
+     [exec] testfiles/G_HelloWorld................................[PASS] (took 0.165s)
+     [exec] testfiles/G_Identity..................................[PASS] (took 0.168s)
+     [exec] testfiles/G_NegativeAverage...........................[PASS] (took 0.204s)
+     [exec] testfiles/G_SimpleAssign..............................[PASS] (took 0.200s)
+     [exec] testfiles/G_SurfaceComputation........................[PASS] (took 0.158s)
+     [exec] testfiles/G_UnlimitedAverage..........................[PASS] (took 0.221s)
+     [exec] testfiles/G_While.....................................[PASS] (took 0.214s)
+     [exec] testfiles/G_WriteNumbers..............................[PASS] (took 0.170s)
+     [exec] testfiles/I_AddSubComplex.............................[PASS] (took 0.163s)
+     [exec] testfiles/I_AddSubSimple..............................[PASS] (took 0.167s)
+     [exec] testfiles/I_Arithmetic................................[PASS] (took 0.177s)
+     [exec] testfiles/I_ArrayMath.................................[PASS] (took 0.176s)
+     [exec] testfiles/I_AsciiArt..................................[PASS] (took 0.166s)
+     [exec] testfiles/I_AssignmentsSimple.........................[PASS] (took 0.139s)
+     [exec] testfiles/I_Conditional...............................[PASS] (took 0.142s)
+     [exec] testfiles/I_HelloWorld................................[PASS] (took 0.142s)
+     [exec] testfiles/I_Identity..................................[PASS] (took 0.169s)
+     [exec] testfiles/I_NegativeAverage...........................[PASS] (took 0.180s)
+     [exec] testfiles/I_QuickSort.................................[PASS] (took 0.166s)
+     [exec] testfiles/I_SurfaceComputation........................[PASS] (took 0.134s)
+     [exec] testfiles/I_UnlimitedAverage..........................[PASS] (took 0.169s)
+     [exec] testfiles/I_While.....................................[PASS] (took 0.162s)
+     [exec] testfiles/I_WriteNumbers..............................[PASS] (took 0.163s)
+     [exec] testfiles/S_AdditionType..............................[PASS] (took 0.173s)
+     [exec] testfiles/S_FormalActualMismatch......................[PASS] (took 0.164s)
+     [exec] testfiles/S_NoStart...................................[PASS] (took 0.175s)
+     [exec] testfiles/S_ReturnWhenVoid............................[PASS] (took 0.133s)
+     [exec] testfiles/S_UndefinedFunction.........................[PASS] (took 0.140s)
+     [exec] testfiles/S_UndefinedVariable.........................[PASS] (took 0.170s)
+
